@@ -1,5 +1,5 @@
 {% set name = "modal-client" %}
-{% set version = "1.5.1" %}
+{% set version = "1.3.0.post1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,37 +7,37 @@ package:
 
 source:
   url: https://pypi.org/packages/source/m/modal/modal-{{ version }}.tar.gz
-  sha256: f8fb7f4d3ccc5b774370704b1aabb79e629ea7e6681a7f9671af5cf77161be12
+  sha256: e86b62c6cfd5c4b40fdf7bcf078d24e4ed7730d2d0b7c70dc3225a36e85067a4
 
 build:
+  number: 0
+  skip: true  # [py<310]
   entry_points:
     - modal = modal.__main__:main
-  noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 0
 
 requirements:
   host:
-    - python {{ python_min }}
+    - python
+    - pip
     - setuptools
     - wheel
-    - pip
   run:
-    - python >={{ python_min }}
+    - python
     - aiohttp
+    - cbor2
     - certifi
-    - click >=8.1.0,<8.2.dev0
+    - click >=8.1,<9
     - grpclib >=0.4.7,<0.4.10
     - protobuf >=3.19,<7.0,!=4.24.0
     - rich >=12.0.0
-    - synchronicity >=0.12.1,<0.13.0
+    - synchronicity >=0.11.1,<0.12
     - toml
     - typer >=0.9
     - types-certifi
     - types-toml
     - watchfiles
-    - typing_extensions >=4.6,<5.dev0
-    - cbor2
+    - typing_extensions >=4.6,<5
 
 test:
   imports:
@@ -48,15 +48,23 @@ test:
     - pip check
     - modal --help
   requires:
-    - python {{ python_min }}
     - pip
 
 about:
-  home: https://pypi.org/project/modal/
+  home: https://modal.com
   summary: Python client library for Modal
-  dev_url: https://github.com/modal-labs/modal-client
+  description: |
+    modal is the Python client library for Modal, a serverless cloud platform
+    for running code (functions, apps, and scheduled jobs) in the cloud with
+    minimal configuration. This package provides the `modal` CLI and the Python
+    SDK used to define and deploy Modal apps. It is published on PyPI as `modal`
+    and packaged here as `modal-client` to avoid the conda name collision with
+    the unrelated modAL active-learning library.
   license: Apache-2.0
+  license_family: Apache
   license_file: LICENSE
+  doc_url: https://modal.com/docs
+  dev_url: https://github.com/modal-labs/modal-client
 
 extra:
   recipe-maintainers:
