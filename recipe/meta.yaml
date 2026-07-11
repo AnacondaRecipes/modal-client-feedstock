@@ -20,7 +20,7 @@ requirements:
   host:
     - python
     - pip
-    - setuptools
+    - setuptools  # upstream pins ~=77.0.3; no 77.x on pkgs/main, builds fine with newer
     - wheel
   run:
     - python
@@ -42,6 +42,7 @@ requirements:
 test:
   imports:
     - modal
+    - modal_docs
     - modal_proto
     - modal_version
   commands:
